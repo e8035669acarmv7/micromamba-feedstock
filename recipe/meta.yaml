@@ -8,6 +8,9 @@ package:
 source:
   url: https://github.com/mamba-org/mamba/archive/refs/tags/micromamba-{{ version }}.tar.gz
   sha256: dce034908d02d991c5e9aadeb9d01f139d027ba199aaeb1d47d543e3f24895d1
+  patches:
+    - patches/0001-fix-latomic-not-added-on-armv7l-gcc.patch
+    - patches/0002-fix-unknown-arm-platform.patch
 
 build:
   number: {{ build_num }}
@@ -66,7 +69,7 @@ test:
     - if [ ! -d "${TMPDIR}" ]; then mkdir -p "${TMPDIR}"; fi                  # [unix and not (ppc64le or aarch64)]
     - stat $TMPDIR                                                            # [unix and not (ppc64le or aarch64)]
     - export MAMBA_ROOT_PREFIX=$TMPDIR/mamba                                  # [unix and not (ppc64le or aarch64)]
-    - micromamba create -p $TMPDIR/testenv --override-channels -c conda-forge --yes python=3.9    # [unix and not (ppc64le or aarch64)]
+    - micromamba create -p $TMPDIR/testenv --override-channels -c conda-forge --yes python=3.11    # [unix and not (ppc64le or aarch64)]
     - $TMPDIR/testenv/bin/python --version                                    # [unix and not (ppc64le or aarch64)]
     - $TMPDIR/testenv/bin/python -c 'import ssl'                              # [unix and not (ppc64le or aarch64)]
 

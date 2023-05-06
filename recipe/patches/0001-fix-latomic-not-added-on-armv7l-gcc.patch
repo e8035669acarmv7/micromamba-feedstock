@@ -1,0 +1,25 @@
+From f412a98223b1e878dea3a1d0baa010d84f43ee1e Mon Sep 17 00:00:00 2001
+From: Yu-Ren Zhang <e8035669@gmail.com>
+Date: Mon, 1 May 2023 19:11:58 +0800
+Subject: [PATCH 1/2] fix -latomic not added on armv7l gcc
+
+---
+ micromamba/CMakeLists.txt | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/micromamba/CMakeLists.txt b/micromamba/CMakeLists.txt
+index 199a7659..2e364720 100644
+--- a/micromamba/CMakeLists.txt
++++ b/micromamba/CMakeLists.txt
+@@ -83,6 +83,8 @@ else ()
+     target_link_libraries(micromamba PRIVATE libmamba)
+ endif ()
+ 
++target_link_libraries(micromamba PRIVATE atomic)
++
+ set_property(TARGET micromamba PROPERTY CXX_STANDARD 17)
+ 
+ install(TARGETS micromamba)
+-- 
+2.20.1
+
