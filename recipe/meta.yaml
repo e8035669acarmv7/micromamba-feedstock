@@ -1,4 +1,4 @@
-{% set version = "1.4.2" %}
+{% set version = "1.4.3" %}
 {% set build_num = 0 %}
 
 package:
@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/mamba-org/mamba/archive/refs/tags/micromamba-{{ version }}.tar.gz
-  sha256: dce034908d02d991c5e9aadeb9d01f139d027ba199aaeb1d47d543e3f24895d1
+  sha256: a8df186e55c3a9fbd92fb7c6e04b86208ab4614ae4a2f6f743cdef26c16c61d3
   patches:
     - patches/0001-fix-latomic-not-added-on-armv7l-gcc.patch
     - patches/0002-fix-unknown-arm-platform.patch
