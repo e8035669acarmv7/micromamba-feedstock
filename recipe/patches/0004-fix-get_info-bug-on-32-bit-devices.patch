@@ -1,0 +1,65 @@
+From 4a5dcb45ffcbbb9a0fcd46329724ca727332f851 Mon Sep 17 00:00:00 2001
+From: Yu-Ren Zhang <e8035669@gmail.com>
+Date: Mon, 15 May 2023 22:16:00 +0800
+Subject: [PATCH 4/5] fix get_info bug on 32 bit devices
+
+---
+ libmamba/src/core/curl.cpp  | 1 +
+ libmamba/src/core/fetch.cpp | 8 ++++----
+ 2 files changed, 5 insertions(+), 4 deletions(-)
+
+diff --git a/libmamba/src/core/curl.cpp b/libmamba/src/core/curl.cpp
+index 17e70678..107b9ae6 100644
+--- a/libmamba/src/core/curl.cpp
++++ b/libmamba/src/core/curl.cpp
+@@ -286,6 +286,7 @@ namespace mamba
+     template tl::expected<long, CURLcode> CURLHandle::get_info(CURLINFO option);
+     template tl::expected<char*, CURLcode> CURLHandle::get_info(CURLINFO option);
+     template tl::expected<double, CURLcode> CURLHandle::get_info(CURLINFO option);
++    template tl::expected<curl_off_t, CURLcode> CURLHandle::get_info(CURLINFO option);
+     template tl::expected<curl_slist*, CURLcode> CURLHandle::get_info(CURLINFO option);
+ 
+     template <class I>
+diff --git a/libmamba/src/core/fetch.cpp b/libmamba/src/core/fetch.cpp
+index d27c2a85..7b4478da 100644
+--- a/libmamba/src/core/fetch.cpp
++++ b/libmamba/src/core/fetch.cpp
+@@ -521,7 +521,7 @@ namespace mamba
+ 
+     std::size_t DownloadTarget::get_speed()
+     {
+-        auto speed = m_curl_handle->get_info<std::size_t>(CURLINFO_SPEED_DOWNLOAD_T);
++        auto speed = m_curl_handle->get_info<curl_off_t>(CURLINFO_SPEED_DOWNLOAD_T);
+         // TODO Should we just drop all code below with progress_bar and use value_or(0) in get_info
+         // above instead?
+         if (!speed.has_value())
+@@ -535,7 +535,7 @@ namespace mamba
+                 return 0;
+             }
+         }
+-        return speed.value();
++        return static_cast<std::size_t>(speed.value());
+     }
+ 
+     bool DownloadTarget::resource_exists()
+@@ -614,7 +614,7 @@ namespace mamba
+         auto avg_speed = get_speed();
+         m_http_status = m_curl_handle->get_info<int>(CURLINFO_RESPONSE_CODE).value_or(10000);
+         m_effective_url = m_curl_handle->get_info<char*>(CURLINFO_EFFECTIVE_URL).value();
+-        m_downloaded_size = m_curl_handle->get_info<std::size_t>(CURLINFO_SIZE_DOWNLOAD_T).value_or(0);
++        m_downloaded_size = m_curl_handle->get_info<curl_off_t>(CURLINFO_SIZE_DOWNLOAD_T).value_or(0);
+ 
+         LOG_INFO << get_transfer_msg();
+ 
+@@ -623,7 +623,7 @@ namespace mamba
+             // this request didn't work!
+ 
+             // respect Retry-After header if present, otherwise use default timeout
+-            m_retry_wait_seconds = m_curl_handle->get_info<std::size_t>(CURLINFO_RETRY_AFTER)
++            m_retry_wait_seconds = m_curl_handle->get_info<curl_off_t>(CURLINFO_RETRY_AFTER)
+                                        .value_or(0);
+             if (!m_retry_wait_seconds)
+             {
+-- 
+2.20.1
+

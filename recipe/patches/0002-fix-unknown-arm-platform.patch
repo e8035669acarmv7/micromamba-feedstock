@@ -1,7 +1,7 @@
 From 3d5ed3e7b939166e764d4bd0cd3f1499772bbd56 Mon Sep 17 00:00:00 2001
 From: Yu-Ren Zhang <e8035669@gmail.com>
 Date: Wed, 3 May 2023 21:08:44 +0800
-Subject: [PATCH 2/2] fix unknown arm platform
+Subject: [PATCH 2/5] fix unknown arm platform
 
 ---
  libmamba/include/mamba/core/context.hpp | 3 ++-
