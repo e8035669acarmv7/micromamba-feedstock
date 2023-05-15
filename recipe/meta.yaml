@@ -7,7 +7,7 @@ package:
 
 source:
   url: https://github.com/mamba-org/mamba/archive/refs/tags/micromamba-{{ version }}.tar.gz
-  sha256: a8df186e55c3a9fbd92fb7c6e04b86208ab4614ae4a2f6f743cdef26c16c61d3
+  sha256: c173a3767ef7f32a7bd9f2ae1f68728fd4bc7df89b16b97c4c7f2b9fbe373898
   patches:
     - patches/0001-fix-latomic-not-added-on-armv7l-gcc.patch
     - patches/0002-fix-unknown-arm-platform.patch
