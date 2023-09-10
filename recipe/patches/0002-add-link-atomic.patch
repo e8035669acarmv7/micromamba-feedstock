@@ -1,0 +1,32 @@
+From c647fbf8dff1e3ea66f4c93fb27e57914c054235 Mon Sep 17 00:00:00 2001
+From: Yu-Ren Zhang <e8035669@gmail.com>
+Date: Sat, 6 May 2023 19:32:05 +0800
+Subject: [PATCH 2/3] add link atomic
+
+---
+ libmamba/CMakeLists.txt | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/libmamba/CMakeLists.txt b/libmamba/CMakeLists.txt
+index 0314d0ab..03e27f29 100644
+--- a/libmamba/CMakeLists.txt
++++ b/libmamba/CMakeLists.txt
+@@ -422,6 +422,7 @@ macro(libmamba_create_target target_name linkage output_name)
+                 spdlog::spdlog_header_only
+                 fmt::fmt-header-only
+              )
++            target_link_libraries(${target_name} PUBLIC atomic)
+ 
+         elseif (WIN32)
+ 
+@@ -522,6 +523,7 @@ macro(libmamba_create_target target_name linkage output_name)
+             # header only version to avoid chasing after the correct fmt version mathching
+             # the one used in the bundle
+             spdlog::spdlog_header_only
++            atomic
+         )
+ 
+         add_compile_definitions(SPDLOG_FMT_EXTERNAL)
+-- 
+2.20.1
+

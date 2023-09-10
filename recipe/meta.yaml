@@ -29,10 +29,9 @@ source:
     folder: mamba
     patches:
       - patches/0001-fix-latomic-not-added-on-armv7l-gcc.patch
-      - patches/0002-fix-unknown-arm-platform.patch
-      - patches/0003-add-link-atomic.patch
-      - patches/0004-fix-get_info-bug-on-32-bit-devices.patch
-      - patches/0005-revert-fetch.cpp-and-change-only-curl.cpp.patch
+      - patches/0002-add-link-atomic.patch
+      - patches/0003-fix-platform-detect.patch
+
   # VCPKG comes with its own (short-lived) metadata which can be already outdated in the latest release
   - url: https://github.com/microsoft/vcpkg/archive/8be970aaeaf19fd2663aaf5888478483f9742e55.tar.gz  # [win]
     sha256: 1d1d3b4b3d1871211d3d7799babfb7443971ed9a51b9eb7018bb94dfdb387076  # [win]
