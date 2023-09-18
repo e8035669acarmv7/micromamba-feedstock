@@ -1,0 +1,34 @@
+From d6d5249471022a0e4ae31a8188b9ca8b5fbad761 Mon Sep 17 00:00:00 2001
+From: Yu-Ren Zhang <e8035669@gmail.com>
+Date: Tue, 12 Sep 2023 19:29:05 +0800
+Subject: [PATCH 5/5] fix get_info in fetch.cpp
+
+---
+ libmamba/src/core/fetch.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libmamba/src/core/fetch.cpp b/libmamba/src/core/fetch.cpp
+index 28c5e89c..9a383dcc 100644
+--- a/libmamba/src/core/fetch.cpp
++++ b/libmamba/src/core/fetch.cpp
+@@ -536,7 +536,7 @@ namespace mamba
+ 
+     curl_off_t DownloadTarget::get_speed()
+     {
+-        auto speed = m_curl_handle->get_info<long>(CURLINFO_SPEED_DOWNLOAD_T);
++        auto speed = m_curl_handle->get_info<std::size_t>(CURLINFO_SPEED_DOWNLOAD_T);
+         // TODO Should we just drop all code below with progress_bar and use value_or(0) in get_info
+         // above instead?
+         if (!speed.has_value())
+@@ -590,7 +590,7 @@ namespace mamba
+         avg_speed = get_speed();
+         http_status = m_curl_handle->get_info<int>(CURLINFO_RESPONSE_CODE).value_or(10000);
+         effective_url = m_curl_handle->get_info<char*>(CURLINFO_EFFECTIVE_URL).value();
+-        downloaded_size = m_curl_handle->get_info<long>(CURLINFO_SIZE_DOWNLOAD_T).value_or(0);
++        downloaded_size = m_curl_handle->get_info<std::size_t>(CURLINFO_SIZE_DOWNLOAD_T).value_or(0);
+ 
+         LOG_INFO << get_transfer_msg();
+ 
+-- 
+2.20.1
+

@@ -1,4 +1,4 @@
-From f412a98223b1e878dea3a1d0baa010d84f43ee1e Mon Sep 17 00:00:00 2001
+From 2bb9d469682e33099916b17dd282b345264cacd9 Mon Sep 17 00:00:00 2001
 From: Yu-Ren Zhang <e8035669@gmail.com>
 Date: Mon, 1 May 2023 19:11:58 +0800
 Subject: [PATCH 1/5] fix -latomic not added on armv7l gcc

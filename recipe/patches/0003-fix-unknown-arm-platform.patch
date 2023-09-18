@@ -1,0 +1,26 @@
+From 5d3935f0594deb6eb9ff5b20d539a7606b676b7d Mon Sep 17 00:00:00 2001
+From: Yu-Ren Zhang <e8035669@gmail.com>
+Date: Wed, 3 May 2023 21:08:44 +0800
+Subject: [PATCH 3/5] fix unknown arm platform
+
+---
+ libmamba/include/mamba/core/context.hpp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/libmamba/include/mamba/core/context.hpp b/libmamba/include/mamba/core/context.hpp
+index d35ab0ea..eeff6efe 100644
+--- a/libmamba/include/mamba/core/context.hpp
++++ b/libmamba/include/mamba/core/context.hpp
+@@ -35,7 +35,8 @@ namespace mamba
+ #elif defined(__arm__) || defined(__thumb__)
+ #ifdef ___ARM_ARCH_6__
+         static const char MAMBA_PLATFORM[] = "linux-armv6l";
+-#elif __ARM_ARCH_7__
++#elif defined(__ARM_ARCH_7__) || defined(__ARM_ARCH_7A__) || \
++      defined(__ARM_ARCH_7R__) || defined(__ARM_ARCH_7M__)
+         static const char MAMBA_PLATFORM[] = "linux-armv7l";
+ #else
+ #error "Unknown Linux arm platform"
+-- 
+2.20.1
+
