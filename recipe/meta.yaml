@@ -1,5 +1,5 @@
-{% set version = "1.5.1" %}
-{% set sha256 = "8760f5d01f307aad28bf04df9affdc077687594cea175b02a4b5ba20933b0920" %}
+{% set version = "2.0.0beta3" %}
+{% set sha256 = "9cc7036a1e9fb9227efb9e8fcc7197d3d17b85dd0a4d92585ac63d3d8909a25c" %}
 {% set build_num = 0 %}
 
 # A strategy for testing the feedstock locally in mamba CI
@@ -33,57 +33,59 @@ source:
       - patches/0003-fix-platform-detect.patch
 
   # VCPKG comes with its own (short-lived) metadata which can be already outdated in the latest release
-  - url: https://github.com/microsoft/vcpkg/archive/8be970aaeaf19fd2663aaf5888478483f9742e55.tar.gz  # [win]
-    sha256: 1d1d3b4b3d1871211d3d7799babfb7443971ed9a51b9eb7018bb94dfdb387076  # [win]
+  - url: https://github.com/microsoft/vcpkg/archive/refs/tags/2023.08.09.tar.gz  # [win]
+    sha256: 241ae285fe27ce3f8478529d9a05e7a49396789fd8618ed62a11c3e4835aaab2     # [win]
     folder: vcpkg  # [win]
 
 build:
   number: {{ build_num }}
   string: {{ build_num }}
+  skip: True                      # [win]
   ignore_run_exports_from:
     - libcurl                     # [unix]
     - libarchive-minimal-static   # [unix]
-    - reproc-cpp                  # [unix]
     - openssl                     # [unix]
     - spdlog
     - fmt
     - {{ compiler('c') }}         # [linux]
     - {{ compiler('cxx') }}       # [linux]
     - python                      # [win]
+    - libsolv
 
 requirements:
   build:
     - {{ compiler('c') }}
     - {{ compiler('cxx') }}
-    - cmake           # [unix]
+    - {{ stdlib('c') }}
+    - cmake
     - ninja
     - vcpkg-tool      # [win]
     - python          # [win]
-    - curl >=7.87,<8  # [win]
+    - curl >=8.4.0    # [win]
     - zlib            # [win]
   host:
     - cli11 >=2.2,<3
     - cpp-expected
     - nlohmann_json
+    - simdjson-static >=3.3.0
     - spdlog
     - fmt
-    - yaml-cpp-static              # [unix]
-    - libcurl >=7.88.1,<8          # [unix]
-    - libcurl-static >=7.88.1,<8   # [unix]
+    - libsolv-static >=0.7.24
+    - yaml-cpp-static >=0.8.0
+    - reproc-static >=14.2.4.post0
+    - reproc-cpp-static >=14.2.4.post0
+    - libcurl >=8.4.0              # [unix]
+    - libcurl-static >=8.4.0       # [unix]
     - xz-static                    # [unix]
     - libssh2-static               # [unix]
     - libarchive-minimal-static    # [unix]
     - krb5-static                  # [unix]
-    - libsolv-static               # [unix]
     - openssl            {{ openssl }}  # [unix]
     - libopenssl-static  {{ openssl }}  # [unix]
     - zstd-static                  # [unix]
     - zlib                         # [unix]
     - libnghttp2-static            # [unix]
     - lz4-c-static                 # [unix]
-    - reproc-static                # [unix]
-    - reproc-cpp                   # [unix]
-    - reproc-cpp-static            # [unix]
     - winreg                       # [win]
 
 test:
