@@ -28,9 +28,7 @@ source:
     "{{ mamba_hash_type }}": "{{ mamba_hash_val }}"
     folder: mamba
     patches:
-      - patches/0001-fix-latomic-not-added-on-armv7l-gcc.patch
-      - patches/0002-add-link-atomic.patch
-      - patches/0003-fix-platform-detect.patch
+      - 0003-fix-unknown-arm-platform.patch
 
   # VCPKG comes with its own (short-lived) metadata which can be already outdated in the latest release
   - url: https://github.com/microsoft/vcpkg/archive/refs/tags/2023.08.09.tar.gz  # [win]

@@ -1,0 +1,26 @@
+From 24870da61a27792e6c5fac2cf3232ae99c405717 Mon Sep 17 00:00:00 2001
+From: Yu-Ren Zhang <e8035669@gmail.com>
+Date: Sun, 21 Jul 2024 21:46:37 +0800
+Subject: [PATCH 3/3] fix unknown-arm-platform
+
+---
+ libmamba/src/specs/platform.cpp | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/libmamba/src/specs/platform.cpp b/libmamba/src/specs/platform.cpp
+index deaa1d0d..27890e06 100644
+--- a/libmamba/src/specs/platform.cpp
++++ b/libmamba/src/specs/platform.cpp
+@@ -84,7 +84,8 @@ namespace mamba::specs
+ #elif defined(__arm__) || defined(__thumb__)
+ #ifdef ___ARM_ARCH_6__
+         return KnownPlatform::linux_armv6l;
+-#elif __ARM_ARCH_7__
++#elif defined(__ARM_ARCH_7__) || defined(__ARM_ARCH_7A__) || \
++      defined(__ARM_ARCH_7R__) || defined(__ARM_ARCH_7M__)
+         return KnownPlatform::linux_armv7l;
+ #else
+ #error "Unknown Linux arm platform"
+-- 
+2.20.1
+
