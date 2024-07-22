@@ -1,0 +1,25 @@
+From 5b5f39ea567718c8918f0a57e26f141c91a22918 Mon Sep 17 00:00:00 2001
+From: Yu-Ren Zhang <e8035669@gmail.com>
+Date: Mon, 22 Jul 2024 18:59:47 +0800
+Subject: [PATCH 4/4] fix incorrect number type
+
+---
+ libmamba/src/specs/conda_url.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/libmamba/src/specs/conda_url.cpp b/libmamba/src/specs/conda_url.cpp
+index 46b45a0d..12bee8b1 100644
+--- a/libmamba/src/specs/conda_url.cpp
++++ b/libmamba/src/specs/conda_url.cpp
+@@ -378,7 +378,7 @@ namespace mamba::specs
+         if (has_archive_extension(path(Decode::no)))
+         {
+             auto l_path = clear_path();
+-            const auto pos = std::min(std::min(l_path.rfind('/'), l_path.size()) + 1ul, l_path.size());
++            const auto pos = std::min(std::min(l_path.rfind('/'), l_path.size()) + 1, l_path.size());
+             l_path.replace(pos, std::string::npos, pkg);
+             Base::set_path(std::move(l_path), Encode::no);
+         }
+-- 
+2.20.1
+
